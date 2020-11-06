@@ -1,10 +1,9 @@
-can run any browser supporting HTML.
+Changed to a React WebApp so first need to install NPM as a package manager.
 
-Run by:
-1. Running index.html using browser.
-2. Should load assets from maps.
+Then need to run:
+
+npm i react-leaflet leaflet @types/react-leaflet
 
 How to Edit:
 1. Right click index.html and open with any IDE or text editor (VS, VSCODE etc.)
-2. Modify index.html for frontend (text, resizing map)
-3. Modify files in maps to add to map(lines,markers)
+2. Modify App.tsx for frontend (text, resizing map)
