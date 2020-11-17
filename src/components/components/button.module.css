@@ -1,0 +1,17 @@
+.buttonBody {
+    background-color: #262626;
+    height: 40px;
+    width: 140px;
+    border-style: dashed;border-color: antiquewhite;
+    margin:10px;
+}
+
+.selectList {
+    background-color:#262626 ;
+    color:#9e9e9e;
+}
+
+.textBox {
+    background-color: #262626;
+    color: #9e9e9e;
+}
