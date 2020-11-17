@@ -1,9 +1,8 @@
-.buttonBody {
-    background-color: #262626;
+.button {
+    background-color: #262626 !important;
     height: 40px;
     width: 140px;
-    border-style: dashed;border-color: antiquewhite;
-    margin:10px;
+    margin:10px !important;
 }
 
 .selectList {

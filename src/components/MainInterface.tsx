@@ -5,6 +5,7 @@ import { TextBox } from './components/TextBox';
 
 import styles from './MainInterface.module.css';
 
+//test code for component usage, not actually code for project
 interface MainState {
     elevationOption: number
     textBoxInfo: string
@@ -39,7 +40,6 @@ class MainInterface extends React.Component<{}, MainState>{
     public render(): ReactNode {
         return (
             <div className={styles.container}>
-
 
                 <SelectList
                     title={"Elevation"}

@@ -5,9 +5,9 @@ import styles from "./button.module.css";
 import TextField from '@material-ui/core/TextField';
 
 interface TextBoxProps {
-    value: string,
-    action: any,
-    placeholder: string
+    value: string, //value that the text box has
+    action: any, //action onchange
+    placeholder: string //placeholder is show
 }
 
 class TextBox extends React.Component<TextBoxProps>{

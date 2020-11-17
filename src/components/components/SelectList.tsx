@@ -20,7 +20,7 @@ class SelectList extends React.Component<MultipleButtonProps>{
         return (
             <MuiThemeProvider theme={theme}>
                 <FormControl variant="outlined">
-                    <InputLabel htmlFor="outlined-age-native-simple" className={styles.selectListText}>{this.props.title}</InputLabel>
+                    <InputLabel htmlFor="outlined-age-native-simple">{this.props.title}</InputLabel>
                     <Select className={styles.selectList}
                         color="primary"
                         native
