@@ -5,8 +5,8 @@ import { theme } from "./theme";
 import styles from "./button.module.css";
 
 interface LargeButtonProps {
-    text: string,
-    action: any;
+    text: string, //text inside button
+    action: any; //onclick handler
 }
 
 class GrayButton extends React.Component<LargeButtonProps>{
@@ -14,7 +14,7 @@ class GrayButton extends React.Component<LargeButtonProps>{
     public render(): ReactNode {
         return (
             <MuiThemeProvider theme={theme}>
-                <Button color="primary" className={styles.buttonBody} onClick={this.props.action}>
+                <Button color="primary" className={styles.button} onClick={this.props.action}>
                     <span>
                         {this.props.text}
                     </span>
