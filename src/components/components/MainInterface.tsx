@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { GrayButton } from './components/GrayButton';
-import { SelectList } from './components/SelectList';
-import { TextBox } from './components/TextBox';
+import { GrayButton } from './GrayButton';
+import { SelectList } from './SelectList';
+import { TextBox } from './TextBox';
 
 import styles from './MainInterface.module.css';
 
