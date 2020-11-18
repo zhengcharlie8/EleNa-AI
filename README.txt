@@ -4,6 +4,8 @@ Then need to run:
 
 npm i react-leaflet leaflet @types/react-leaflet
 npm add material-ui/core
+npm install react-bootstrap bootstrap
+npm install axios
 
 File Format:
 The public folder is assets used for the frontend.

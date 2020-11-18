@@ -7,6 +7,7 @@ import {
   Row,
   ToggleButton,
 } from "react-bootstrap";
+import axios from "axios";
 
 const route = {};
 const elevationOptions = [
@@ -21,6 +22,27 @@ const getRoute = (start: String, end: String, elevation: String) => {
   console.log(elevation);
   console.log(route);
 };
+
+const getGeoLocation = (address: string) => {
+  let URL = "https://maps.googleapis.com/maps/api/geocode/json";
+  let API_KEY = "";
+
+  axios.get(URL, {
+    params: {
+      address: address,
+      key: API_KEY
+    }
+  })
+    .then((response: any) => {
+      let formattedAddr = response.data.results[0].formatted_address;
+      let lat = response.data.results[0].geometry.location.lat;
+      let lng = response.data.results[0].geometry.location.lng;
+      console.log(formattedAddr, lat, lng);
+    })
+    .catch((error: any) => {
+      console.log("error")
+    });
+}
 
 const Query: React.FC = () => {
   const [startPoint, setStartPoint] = useState("");
