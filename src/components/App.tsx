@@ -2,7 +2,7 @@ import React from "react";
 
 import "./App.css";
 import Query from "./Query/Query";
-import LeafletMap from "./LeafletMap";
+import LeafletMap from "./Map/LeafletMap";
 import { Col, Container, Row } from "react-bootstrap";
 
 const App: React.FC = () => {
