@@ -1,9 +1,10 @@
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 import "./App.css";
 import Query from "./Query/Query";
+import Results from "./Results/Results";
 import LeafletMap from "./Map/LeafletMap";
-import { Col, Container, Row } from "react-bootstrap";
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,9 @@ const App: React.FC = () => {
           <Col sm={10}>
             <LeafletMap />
           </Col>
-          <Col sm={2}>hello</Col>
+          <Col sm={2}>
+            <Results />
+          </Col>
         </Row>
       </Container>
     </div>
