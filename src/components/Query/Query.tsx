@@ -8,8 +8,11 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 import axios from "axios";
-import Results from "../Results/Results";
-import LeafletMap from "../Map/LeafletMap";
+
+interface Props {
+  handleQueryPoints: (start: Object, end: Object) => void;
+  handleResults: (distance: number, elevationGain: number) => void;
+}
 
 const route = {};
 const elevationOptions = [
@@ -73,7 +76,7 @@ function test(e: any) {
   alert(e);
 }
 
-const Query: React.FC = () => {
+const Query: React.FC<Props> = (props: Props) => {
   const [startPoint, setStartPoint] = useState("");
   const [endPoint, setEndPoint] = useState("");
   const [startLatLng, setStartLatLng] = useState([0, 0]);
@@ -94,8 +97,10 @@ const Query: React.FC = () => {
               <strong>Starting Point</strong>
             </Form.Label>
             <Form.Control
+              id="startPoint"
               type="text"
               placeholder="Starting Point"
+              value={startPoint}
               onChange={(e) => setStartPoint(e.currentTarget.value)}
               onBlur={(e: any) => getStartingGeoLocation(e.currentTarget.value, setStartLatLng)}
             />
@@ -105,8 +110,10 @@ const Query: React.FC = () => {
               <strong>Destination</strong>
             </Form.Label>
             <Form.Control
+              id="endPoint"
               type="text"
               placeholder="Destination"
+              value={endPoint}
               onChange={(e) => setEndPoint(e.currentTarget.value)}
               onBlur={(e: any) => getEndingGeoLocation(e.currentTarget.value, setEndLatLng)}
             />
@@ -115,7 +122,7 @@ const Query: React.FC = () => {
         <Col sm={3}>
           <Form.Group>
             <Form.Label>
-              <strong>Elevation</strong>
+              <strong>Elevation Gain</strong>
             </Form.Label>
             <br></br>
             <ButtonGroup toggle>
@@ -138,14 +145,6 @@ const Query: React.FC = () => {
           <Button size="lg" block type="submit">
             Search
           </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={10}>
-          <LeafletMap />
-        </Col>
-        <Col sm={2}>
-          <Results />
         </Col>
       </Row>
     </Form>
