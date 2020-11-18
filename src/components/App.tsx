@@ -16,14 +16,6 @@ const App: React.FC = () => {
             <Query />
           </Col>
         </Row>
-        <Row>
-          <Col sm={10}>
-            <LeafletMap />
-          </Col>
-          <Col sm={2}>
-            <Results />
-          </Col>
-        </Row>
       </Container>
     </div>
   );
