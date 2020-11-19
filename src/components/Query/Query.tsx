@@ -9,9 +9,11 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-interface Props {
-  handleQueryPoints: (start: Object, end: Object) => void;
-  handleResults: (distance: number, elevationGain: number) => void;
+interface IProps {
+  setStartLocation: (start: [number, number]) => void;
+  setEndLocation: (end: [number, number]) => void;
+  setResults: (distance: number, elevationGain: number) => void;
+  setAddress: (start: string, end: string) => void;
 }
 
 const route = {};
@@ -28,9 +30,9 @@ const getRoute = (start: String, end: String, elevation: String) => {
   console.log(route);
 };
 
-const getStartingGeoLocation = (address: string, setStartLatLng: React.Dispatch<React.SetStateAction<number[]>>) => {
+const getStartingGeoLocation = (address: string, setStartLocation: (start: [number, number]) => void) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "";
+  let API_KEY = "AIzaSyCCN5BilDgi0wzUFeF_9vsRnxaQjgUJjX4";
 
   axios.get(URL, {
     params: {
@@ -43,16 +45,16 @@ const getStartingGeoLocation = (address: string, setStartLatLng: React.Dispatch<
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
       console.log(formattedAddr, lat, lng);
-      setStartLatLng([lat, lng]);
+      setStartLocation([lat, lng]);
     })
     .catch((error: any) => {
       console.log("error")
     });
 }
 
-const getEndingGeoLocation = (address: string, setEndLatLng: React.Dispatch<React.SetStateAction<number[]>>) => {
+const getEndingGeoLocation = (address: string, setEndLocation: (start: [number, number]) => void) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "";
+  let API_KEY = "AIzaSyCCN5BilDgi0wzUFeF_9vsRnxaQjgUJjX4";
 
   axios.get(URL, {
     params: {
@@ -65,7 +67,7 @@ const getEndingGeoLocation = (address: string, setEndLatLng: React.Dispatch<Reac
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
       console.log(formattedAddr, lat, lng);
-      setEndLatLng([lat, lng]);
+      setEndLocation([lat, lng]);
     })
     .catch((error: any) => {
       console.log("error")
@@ -76,11 +78,11 @@ function test(e: any) {
   alert(e);
 }
 
-const Query: React.FC<Props> = (props: Props) => {
+const Query: React.FC<IProps> = (props: IProps) => {
   const [startPoint, setStartPoint] = useState("");
   const [endPoint, setEndPoint] = useState("");
-  const [startLatLng, setStartLatLng] = useState([0, 0]);
-  const [endLatLng, setEndLatLng] = useState([0, 0]);
+  // const [startLatLng, setStartLatLng] = useState<[number, number]>([0, 0]);
+  // const [endLatLng, setEndLatLng] = useState<[number, number]>([0, 0]);
   const [elevationValue, setElevationValue] = useState("minimize");
 
   return (
@@ -102,7 +104,7 @@ const Query: React.FC<Props> = (props: Props) => {
               placeholder="Starting Point"
               value={startPoint}
               onChange={(e) => setStartPoint(e.currentTarget.value)}
-              onBlur={(e: any) => getStartingGeoLocation(e.currentTarget.value, setStartLatLng)}
+              onBlur={(e: any) => getStartingGeoLocation(e.currentTarget.value, props.setStartLocation)}
             />
           </Form.Group>
           <Form.Group>
@@ -115,7 +117,7 @@ const Query: React.FC<Props> = (props: Props) => {
               placeholder="Destination"
               value={endPoint}
               onChange={(e) => setEndPoint(e.currentTarget.value)}
-              onBlur={(e: any) => getEndingGeoLocation(e.currentTarget.value, setEndLatLng)}
+              onBlur={(e: any) => getEndingGeoLocation(e.currentTarget.value, props.setEndLocation)}
             />
           </Form.Group>
         </Col>
