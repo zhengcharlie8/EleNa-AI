@@ -17,7 +17,7 @@ const Results: React.FC<Props> = (props: Props) => {
     routing = (
       <div>
         <Row>
-          <span>- {props.startAddress}</span>
+          <span><strong>- {props.startAddress}</strong></span>
         </Row>
         {props.route.map((point, idx) => (
           <Row key={idx}>
@@ -25,7 +25,7 @@ const Results: React.FC<Props> = (props: Props) => {
           </Row>
         ))}
         <Row>
-          <span>- {props.endAddress}</span>
+          <span><strong>- {props.endAddress}</strong></span>
         </Row>
       </div>
     );
