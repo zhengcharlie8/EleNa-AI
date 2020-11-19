@@ -4,6 +4,8 @@ import { Row } from "react-bootstrap";
 interface Props {
   distance: number;
   elevationGain: number;
+  startAddress: string;
+  endAddress: string;
 }
 
 const routePoints: Object[] = [];
@@ -21,7 +23,7 @@ const Results: React.FC<Props> = (props: Props) => {
       </Row>
       <Row>
         {routePoints.map((location, idx) => (
-          <div>{}</div>
+          <div>{ }</div>
         ))}
       </Row>
     </div>
