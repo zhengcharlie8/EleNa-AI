@@ -32,7 +32,7 @@ const getRoute = (start: String, end: String, elevation: String) => {
 
 const getStartingGeoLocation = (address: string, setStartLocation: (start: [number, number]) => void) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "AIzaSyCCN5BilDgi0wzUFeF_9vsRnxaQjgUJjX4";
+  let API_KEY = "";
 
   axios.get(URL, {
     params: {
@@ -54,7 +54,7 @@ const getStartingGeoLocation = (address: string, setStartLocation: (start: [numb
 
 const getEndingGeoLocation = (address: string, setEndLocation: (start: [number, number]) => void) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "AIzaSyCCN5BilDgi0wzUFeF_9vsRnxaQjgUJjX4";
+  let API_KEY = "";
 
   axios.get(URL, {
     params: {
