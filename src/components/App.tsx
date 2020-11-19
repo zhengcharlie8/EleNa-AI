@@ -5,7 +5,11 @@ import "./App.css";
 import Query from "./Query/Query";
 import Results from "./Results/Results";
 import LeafletMap from "./Map/LeafletMap";
-import { start } from "repl";
+
+export interface Point {
+  name: string;
+  location: number[];
+}
 
 const App: React.FC = () => {
   let [startPoint, setStartPoint] = useState<[number, number]>([0, 0]);
@@ -14,35 +18,43 @@ const App: React.FC = () => {
   let [elevationGain, setElevationGain] = useState(0);
   let [startAddress, setStartAddress] = useState("");
   let [endAddress, setEndAddress] = useState("");
-  // const handleResults = setResults.bind(this);
-  // const handleQueryPoints = setQueryPoints.bind(this);
+  let [route, setRoute] = useState<Point[]>([]);
 
-  let setResults = (distance: number, elevationGain: number) => {
+  const setResults = (distance: number, elevationGain: number) => {
     setDistance(distance);
     setElevationGain(elevationGain);
-  }
+  };
 
-  let setAddress = (start: string, end: string) => {
+  const setAddress = (start: string, end: string) => {
     setStartAddress(start);
     setEndAddress(end);
-  }
+  };
 
-  let setStartLocation = (start: [number, number]) => {
+  const setStartLocation = (start: [number, number]) => {
     setStartPoint(start);
-  }
+  };
 
-  let setEndLocation = (end: [number, number]) => {
+  const setEndLocation = (end: [number, number]) => {
     setEndPoint(end);
-  }
+  };
 
-  console.log(startPoint);
+  const setRouting = (route: Point[]) => {
+    setRoute(route);
+  };
+
   return (
     <div>
       <h1>EleNa</h1>
       <Container>
         <Row>
           <Col>
-            <Query setStartLocation={setStartLocation} setEndLocation={setEndLocation} setResults={setResults} setAddress={setAddress} />
+            <Query
+              setStartLocation={setStartLocation}
+              setEndLocation={setEndLocation}
+              setResults={setResults}
+              setAddress={setAddress}
+              setRoute={setRouting}
+            />
           </Col>
         </Row>
         <Row>
@@ -50,7 +62,13 @@ const App: React.FC = () => {
             <LeafletMap start={startPoint} end={endPoint} />
           </Col>
           <Col sm={2}>
-            <Results distance={distance} elevationGain={elevationGain} startAddress={startAddress} endAddress={endAddress} />
+            <Results
+              distance={distance}
+              elevationGain={elevationGain}
+              startAddress={startAddress}
+              endAddress={endAddress}
+              route={route}
+            />
           </Col>
         </Row>
       </Container>

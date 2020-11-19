@@ -1,15 +1,35 @@
 import React from "react";
 import { Row } from "react-bootstrap";
 
+import { Point } from "../App";
+
 interface Props {
   distance: number;
   elevationGain: number;
   startAddress: string;
   endAddress: string;
+  route: Point[];
 }
 
-const routePoints: Object[] = [];
 const Results: React.FC<Props> = (props: Props) => {
+  let routing = <div></div>;
+  if (props.route.length !== 0) {
+    routing = (
+      <div>
+        <Row>
+          <span>- {props.startAddress}</span>
+        </Row>
+        {props.route.map((point, idx) => (
+          <Row key={idx}>
+            <span>- {point.name}</span>
+          </Row>
+        ))}
+        <Row>
+          <span>- {props.endAddress}</span>
+        </Row>
+      </div>
+    );
+  }
   return (
     <div>
       <Row>
@@ -21,11 +41,8 @@ const Results: React.FC<Props> = (props: Props) => {
         <strong>Elevation Gain</strong>
         <input disabled value={props.elevationGain} />
       </Row>
-      <Row>
-        {routePoints.map((location, idx) => (
-          <div>{ }</div>
-        ))}
-      </Row>
+      <br />
+      {routing}
     </div>
   );
 };
