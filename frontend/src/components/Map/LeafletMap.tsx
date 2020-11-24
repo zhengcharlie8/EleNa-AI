@@ -1,7 +1,7 @@
 import React from "react";
 import { useMapEvents, MapContainer, Marker, Popup, TileLayer, GeoJSON } from "react-leaflet";
 import { LatLngTuple, Icon } from "leaflet";
-import { GeoJsonTypes } from "geojson";
+import { GeoJsonTypes, GeoJsonObject } from "geojson";
 import icon from './assets/pin24.png';
 import blueIcon from './assets/marker-icon-2x-blue.png';
 import redIcon from './assets/marker-icon-2x-red.png'
@@ -30,7 +30,8 @@ function MyComponent(props: any) {
 
 interface IMapProps {
   start?: [number, number];
-  end?: [number, number]
+  end?: [number, number];
+  route?: number[][];
 }
 
 interface IMapState {
@@ -68,14 +69,8 @@ class LeafletMap extends React.Component<IMapProps> {
 
     let myLines = {
       type: "LineString" as GeoJsonTypes,
-      coordinates: [
-        [-100, 40],
-        [-105, 45],
-        [-110, 55],
-      ],
+      coordinates: this.props.route
     };
-
-    console.log(this.props.start);
     return (
       <MapContainer
         id="mapId"
@@ -85,7 +80,11 @@ class LeafletMap extends React.Component<IMapProps> {
         scrollWheelZoom={false}
       >
         {/* <MyComponent markers={markers} /> */}
-        <GeoJSON data={myLines} style={myStyle} />
+        {(this.props.route != undefined)
+          ? <GeoJSON data={myLines}
+            style={myStyle} />
+          : ""}
+        {/* <GeoJSON data={myLines} style={myStyle} /> */}
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
