@@ -55,6 +55,7 @@ const App: React.FC = () => {
               setAddress={setAddress}
               setRoute={setRouting}
             />
+            <br />
           </Col>
         </Row>
         <Row>

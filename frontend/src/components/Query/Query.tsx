@@ -24,8 +24,18 @@ const elevationOptions = [
   { name: "Minimize", value: "minimize" },
   { name: "Maximize", value: "maximize" },
 ];
+const travelMethodOptions = [
+  { name: "Walk", value: "foot" },
+  { name: "Bike", value: "bike" },
+  { name: "Car", value: "car" },
+];
 
-const getRoute = (start: String, end: String, elevation: String, setResults: (start: number, end: number) => void) => {
+const getRoute = (
+  start: String,
+  end: String,
+  elevation: String,
+  setResults: (start: number, end: number) => void
+) => {
   // add endpoints here and place into route
   console.log(start);
   console.log(end);
@@ -98,17 +108,20 @@ const Query: React.FC<IProps> = (props: IProps) => {
   const [startPoint, setStartPoint] = useState("");
   const [endPoint, setEndPoint] = useState("");
   const [elevationValue, setElevationValue] = useState("minimize");
+  const [travelMethod, setTravelMethod] = useState("foot");
 
   return (
     <Form
       onSubmit={(event) => {
         props.setAddress(startPoint, endPoint);
-        props.setRoute(getRoute(startPoint, endPoint, elevationValue, props.setResults));
+        props.setRoute(
+          getRoute(startPoint, endPoint, elevationValue, props.setResults)
+        );
         event.preventDefault();
       }}
     >
       <Row>
-        <Col sm={8}>
+        <Col sm={7}>
           <Form.Group>
             <Form.Label>
               <strong>Starting Point</strong>
@@ -168,12 +181,32 @@ const Query: React.FC<IProps> = (props: IProps) => {
               ))}
             </ButtonGroup>
           </Form.Group>
-          <br />
-          <Button size="lg" block type="submit">
-            Search
-          </Button>
+          <Form.Group>
+            <Form.Label>
+              <strong>Travel Method</strong>
+            </Form.Label>
+            <br></br>
+            <ButtonGroup toggle>
+              {travelMethodOptions.map((option, idx) => (
+                <ToggleButton
+                  key={idx}
+                  type="radio"
+                  variant="secondary"
+                  name={option.name}
+                  value={option.value}
+                  checked={travelMethod === option.value}
+                  onChange={(e) => setTravelMethod(e.currentTarget.value)}
+                >
+                  {option.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
+          </Form.Group>
         </Col>
       </Row>
+      <Button size="lg" block type="submit">
+        Search
+      </Button>
     </Form>
   );
 };
