@@ -52,12 +52,12 @@ const getRoute = (
   return route;
 };
 
-const getStartingGeoLocation = (
+const getGeoLocation = (
   address: string,
-  setStartLocation: (start: [number, number]) => void
+  setLocation: (start: [number, number]) => void
 ) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "";
+  let API_KEY = "AIzaSyDpNyOxguHBEBBY06QMjCd6Lk63FxximWk";
 
   axios
     .get(URL, {
@@ -71,38 +71,13 @@ const getStartingGeoLocation = (
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
       console.log(formattedAddr, lat, lng);
-      setStartLocation([lat, lng]);
+      setLocation([lat, lng]);
     })
     .catch((error: any) => {
       console.log("error");
     });
 };
 
-const getEndingGeoLocation = (
-  address: string,
-  setEndLocation: (start: [number, number]) => void
-) => {
-  let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "";
-
-  axios
-    .get(URL, {
-      params: {
-        address: address,
-        key: API_KEY,
-      },
-    })
-    .then((response: any) => {
-      let formattedAddr = response.data.results[0].formatted_address;
-      let lat = response.data.results[0].geometry.location.lat;
-      let lng = response.data.results[0].geometry.location.lng;
-      console.log(formattedAddr, lat, lng);
-      setEndLocation([lat, lng]);
-    })
-    .catch((error: any) => {
-      console.log("error");
-    });
-};
 
 const Query: React.FC<IProps> = (props: IProps) => {
   const [startPoint, setStartPoint] = useState("");
@@ -133,7 +108,7 @@ const Query: React.FC<IProps> = (props: IProps) => {
               value={startPoint}
               onChange={(e) => setStartPoint(e.currentTarget.value)}
               onBlur={(e: any) =>
-                getStartingGeoLocation(
+                getGeoLocation(
                   e.currentTarget.value,
                   props.setStartLocation
                 )
@@ -151,7 +126,7 @@ const Query: React.FC<IProps> = (props: IProps) => {
               value={endPoint}
               onChange={(e) => setEndPoint(e.currentTarget.value)}
               onBlur={(e: any) =>
-                getEndingGeoLocation(
+                getGeoLocation(
                   e.currentTarget.value,
                   props.setEndLocation
                 )
