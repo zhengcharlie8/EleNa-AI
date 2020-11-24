@@ -31,30 +31,24 @@ const travelMethodOptions = [
 ];
 
 const getRoute = (
-  start: String,
-  end: String,
-  elevation: String,
-  setResults: (start: number, end: number) => void
+  start: number[],
+  end: number[],
+  maximizeElevation: boolean,
+  travel: String,
+  setResults: (distance: number, elevationGain: number) => void
 ) => {
-  // add endpoints here and place into route
-  console.log(start);
-  console.log(end);
-  console.log(elevation);
-  console.log(route);
-  route = [
-    { name: "p1", location: [-71.279296875, 44.933696389694674] },
-    { name: "p2", location: [-72.99316406249999, 42.84375132629021] },
-    { name: "p3", location: [-78.2666015625, 41.83682786072714] },
-    { name: "p4", location: [-83.8916015625, 41.77131167976407] },
-    { name: "p5", location: [-87.01171875, 39.842286020743394] },
-  ];
-  setResults(520, 520);
+  let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong${end[1]}&maximize=${maximizeElevation}&type=${travel}`;
+  axios.get(url).then((response: any) => {
+    setResults(response.distance, response.elevationGain);
+    route = response.coordinates;
+  });
   return route;
 };
 
 const getGeoLocation = (
   address: string,
-  setLocation: (start: [number, number]) => void
+  setLocation: (coordinates: [number, number]) => void,
+  setCoordinates: (value: React.SetStateAction<number[]>) => void
 ) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
   let API_KEY = "AIzaSyDpNyOxguHBEBBY06QMjCd6Lk63FxximWk";
@@ -70,8 +64,8 @@ const getGeoLocation = (
       let formattedAddr = response.data.results[0].formatted_address;
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
-      console.log(formattedAddr, lat, lng);
       setLocation([lat, lng]);
+      setCoordinates([lat, lng]);
     })
     .catch((error: any) => {
       console.log("error");
@@ -84,13 +78,15 @@ const Query: React.FC<IProps> = (props: IProps) => {
   const [endPoint, setEndPoint] = useState("");
   const [elevationValue, setElevationValue] = useState("minimize");
   const [travelMethod, setTravelMethod] = useState("foot");
+  const [startCoordinates, setStartCoordinates] = useState([0, 0]);
+  const [endCoordinates, setEndCoordinates] = useState([0, 0]);
 
   return (
     <Form
       onSubmit={(event) => {
         props.setAddress(startPoint, endPoint);
         props.setRoute(
-          getRoute(startPoint, endPoint, elevationValue, props.setResults)
+          getRoute(startCoordinates, endCoordinates, elevationValue === "maximize", travelMethod, props.setResults)
         );
         event.preventDefault();
       }}
@@ -110,7 +106,8 @@ const Query: React.FC<IProps> = (props: IProps) => {
               onBlur={(e: any) =>
                 getGeoLocation(
                   e.currentTarget.value,
-                  props.setStartLocation
+                  props.setStartLocation,
+                  setStartCoordinates
                 )
               }
             />
@@ -128,7 +125,8 @@ const Query: React.FC<IProps> = (props: IProps) => {
               onBlur={(e: any) =>
                 getGeoLocation(
                   e.currentTarget.value,
-                  props.setEndLocation
+                  props.setEndLocation,
+                  setEndCoordinates
                 )
               }
             />
