@@ -48,7 +48,13 @@ public class Elevation {
         return 0.0; // Return 0 if elevation not found
 
     }
-
+    
+    /**
+     * Helper method for getting elevation from nationalmap.gov.
+     * @param  lng longitude of the query point. 
+     * @param  lat latitude of the query point.       
+     * @return Elevation of the query point.
+     */
     public static double getElevation(double lng, double lat) {
         BufferedReader reader;
         String line;
@@ -61,10 +67,9 @@ public class Elevation {
             // Request setup
             con.setRequestMethod("GET");
             con.setConnectTimeout(5000);
-            con.setReadTimeout(5000);
+            con.setReadTimeout(8000);
 
             int status = con.getResponseCode();
-            // System.out.println(status);
             if (status > 299) {
                 // Display error message when connection has problem
                 reader = new BufferedReader(new InputStreamReader(con.getErrorStream())); 
@@ -94,10 +99,10 @@ public class Elevation {
         }
 
         catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         finally {
             con.disconnect();
