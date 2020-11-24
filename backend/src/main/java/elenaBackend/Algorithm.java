@@ -33,13 +33,17 @@ public class Algorithm {
      * @param mode Travel mode ("car", "foot", "bike")
      * @return A JSONObject of all possible paths, given by OSRM.
      */
-    public static JSONObject getJSON(double lng1, double lat1, double lng2, double lat2, String mode) {
+    public static JSONObject getJSON(
+        double lat1,
+        double lng1, 
+        double lat2, 
+        double lng2, 
+        String mode) {
         BufferedReader reader;
         String line;
         StringBuffer responseContent = new StringBuffer();
         JSONObject result = null;
-      
-        String coords = String.format("%s,%s;%s,%s", Double.toString(lng1), Double.toString(lat1), Double.toString(lng2), Double.toString(lat2));
+        String coords = String.format("%s,%s;%s,%s", Double.toString(lng1), Double.toString(lat1), Double.toString(lat2), Double.toString(lng2));
         String queryURL = String.format("http://router.project-osrm.org/route/v1/%s/%s?alternatives=3&geometries=geojson", mode, coords);
         try {
             URL myURL = new URL(queryURL);
@@ -48,7 +52,7 @@ public class Algorithm {
             con.setRequestMethod("GET");
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
-            
+
             int status = con.getResponseCode();
             if (status > 299) {          // Display error message when connection has problem
                 reader = new BufferedReader(new InputStreamReader(con.getErrorStream())); 
@@ -80,9 +84,9 @@ public class Algorithm {
         JSONObject Top3Routes = new JSONObject();
         return Top3Routes;
     }
-     
+
     // Front-end: "http://localhost:8080/getRoute?startLat=42.36929969&startLong=-71.10008238&endLat=42.38745864&endLong=-72.52926635&type=car&maximize=true";
-    
+
     /**
      * Helper method to round a random double to 2 decimal places. 
      * @param num input double.
@@ -99,30 +103,29 @@ public class Algorithm {
      * @param  checkTop3 boolean that indicates whether or not to check the 3 shortest routes.      
      * @return The best route in json format, maximizing/minimizing elevation gain.
      */
-    public static JSONObject getBestRoute(String FEinput, boolean checkTop3) {
+    public static JSONObject getBestRoute(
+     String slat,
+     String slong,
+     String endlat,
+     String endlong,
+     String type,
+     boolean max,
+     boolean checkTop3) {
         JSONObject bestRoute = new JSONObject();
         JSONObject Routes;
         // Extract information from String returned by front-end
-        ArrayList<String> inputs = new ArrayList<String> ();
-        String[] patterns = {".*Long=(.*)&endLat.*", ".*Lat=(.*)&startLong.*", ".*endLong=(.*)&type.*", ".*endLat=(.*)&endLong.*", ".*type=(.*)&max.*", ".*maximize=(.*)"};
-        for (int i = 0; i < patterns.length; i ++) {
-            Pattern p = Pattern.compile(patterns[i]);
-            Matcher m = p.matcher(FEinput);
-            m.matches();
-            inputs.add(m.group(1));
-        }
         // System.out.println(inputs);
-        double lng1 = Double.parseDouble(inputs.get(0));
-        double lat1 = Double.parseDouble(inputs.get(1));
-        double lng2 = Double.parseDouble(inputs.get(2));
-        double lat2 = Double.parseDouble(inputs.get(3));
-        String mode = inputs.get(4);
-        boolean maximize = Boolean.parseBoolean(inputs.get(5));
+        double lng1 = Double.parseDouble(slong);
+        double lat1 = Double.parseDouble(slat);
+        double lng2 = Double.parseDouble(endlat);
+        double lat2 = Double.parseDouble(endlong);
+        String mode = type;
+        boolean maximize = true;
         if (checkTop3) {
             Routes = EvanMethod(lng1, lat1, lng2, lat2, mode);
         }
         else {
-            Routes = getJSON(lng1, lat1, lng2, lat2, mode);
+            Routes = getJSON(lat1, lng1, lat2, lng2, mode);
         }
 
         try {
@@ -133,12 +136,12 @@ public class Algorithm {
                 JSONObject curr_geo = array.getJSONObject(i).getJSONObject("geometry");
                 JSONArray coordinates = curr_geo.getJSONArray("coordinates");
                 //System.out.println("Current path includes points: " +coordinates.toString()+ ".");
-                
+
                 double lng = coordinates.getJSONArray(0).getDouble(0);
                 double lat = coordinates.getJSONArray(0).getDouble(1);
                 double curr_elev = Elevation.getElevation(lng, lat);
                 double next_elev;
-                
+
                 double elev_gain = 0.0;
                 for (int j = 1; j < coordinates.length(); j ++) {
                     lng = coordinates.getJSONArray(j).getDouble(0);
@@ -147,11 +150,10 @@ public class Algorithm {
                     if ((next_elev - curr_elev) > 0) {
                         elev_gain += next_elev - curr_elev;
                     }
-                    else { continue; }       // Do not count 0 or negative elevation gain.
                     curr_elev = next_elev;
                 }
                 elev_gain = twoDecimalPlaces(elev_gain);
-                //System.out.println("Current path elevation gain is " +elev_gain+ " meters.");
+                // System.out.println("Current path elevation gain is " +elev_gain+ " meters.");
                 map.put(elev_gain, i);
                 elev_gains[i] = elev_gain;
                 //System.out.println(" ");
@@ -176,22 +178,22 @@ public class Algorithm {
         }
         return bestRoute;
     } 
-    
+
     public static void main(String[] args){
-        double lngA = -117.66907, latA = 34.05038;
-        double lngB = -118.27496, latB = 34.13681;
-        String travel_mode = "driving";
-        JSONObject queryjson = getJSON(lngA, latA, lngB, latB, travel_mode);
-        // try {
-        //     System.out.println(queryjson.toString(2));   // pretty printing
-        // }
-        // catch (Exception e) {
-        //     System.out.println(e.getMessage());
-        // }
-        // parseJSON(queryjson);
-        String FEinput = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
-        // String AmhToBos = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
-        JSONObject bestFound = getBestRoute(FEinput, false);
-        System.out.println("The best route is " +bestFound+ ". ");
+        // double lngA = -117.66907, latA = 34.05038;
+        // double lngB = -118.27496, latB = 34.13681;
+        // String travel_mode = "driving";
+        // JSONObject queryjson = getJSON(lngA, latA, lngB, latB, travel_mode);
+        // // try {
+        // //     System.out.println(queryjson.toString(2));   // pretty printing
+        // // }
+        // // catch (Exception e) {
+        // //     System.out.println(e.getMessage());
+        // // }
+        // // parseJSON(queryjson);
+        // String FEinput = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
+        // // String AmhToBos = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
+        // JSONObject bestFound = getBestRoute(FEinput, false);
+        // System.out.println("The best route is " +bestFound+ ". ");
     }
 }

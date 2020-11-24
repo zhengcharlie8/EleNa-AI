@@ -3,24 +3,8 @@ package elenaBackend.demo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import elenaBackend.Elevation;
-import elenaBackend.Algorithm;
-
-import static org.junit.jupiter.api.Assertions.*;
-import org.json.JSONObject;
-
 @SpringBootTest
 class ElenaBackendApplicationTests {
-    // To test: run ./mvnw test in the terminal
-	@Test
-	public void testAmherstElevation() {
-		final double lng1 = -72.50090789;
-		final double lat1 = 42.37924209;
-		assertEquals(59.65, Elevation.getElevation(lng1, lat1));
-		final double lng2 = -72.5289402;
-		final double lat2 = 42.38830809;
-        assertEquals(70.35, Elevation.getElevation(lng2, lat2));
-	}
 
 	@Test
 	public void testLAElevation() {
@@ -53,25 +37,23 @@ class ElenaBackendApplicationTests {
 
 	@Test
 	public void testgetBestRoute() {
-		String Input1_max = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
-		String Input1_min = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=false";
-		JSONObject bestRoute1_max = Algorithm.getBestRoute(Input1_max, false);
-		JSONObject bestRoute1_min = Algorithm.getBestRoute(Input1_min, false);
-		String Input2_max = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
+		// String Input1_max = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
+		// String Input1_min = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=false";
+		// JSONObject bestRoute1_max = Algorithm.getBestRoute(Input1_max, false);
+		// JSONObject bestRoute1_min = Algorithm.getBestRoute(Input1_min, false);
+		// String Input2_max = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
 
-		JSONObject bestRoute2_max = Algorithm.getBestRoute(Input2_max, false);
-		try {
-			assertEquals(281.35, bestRoute1_max.getDouble("elevation_gain"));
-			assertEquals(90.16, bestRoute1_max.getDouble("distance"));
-			assertEquals(179.05, bestRoute1_min.getDouble("elevation_gain"));
-			assertEquals(104.35, bestRoute1_min.getDouble("distance"));
-			assertEquals(71.56, bestRoute2_max.getDouble("elevation_gain"));
-			assertEquals(41.71, bestRoute2_max.getDouble("distance"));
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
+		// JSONObject bestRoute2_max = Algorithm.getBestRoute(Input2_max, false);
+		// try {
+		// 	assertEquals(281.35, bestRoute1_max.getDouble("elevation_gain"));
+		// 	assertEquals(90.16, bestRoute1_max.getDouble("distance"));
+		// 	assertEquals(179.05, bestRoute1_min.getDouble("elevation_gain"));
+		// 	assertEquals(104.35, bestRoute1_min.getDouble("distance"));
+		// 	assertEquals(71.56, bestRoute2_max.getDouble("elevation_gain"));
+		// 	assertEquals(41.71, bestRoute2_max.getDouble("distance"));
+		// }
+		// catch (Exception e) {
+		// 	System.out.println(e.getMessage());
+		// }
 	}
-
 }
