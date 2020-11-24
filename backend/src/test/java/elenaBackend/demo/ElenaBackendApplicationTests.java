@@ -7,9 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ElenaBackendApplicationTests {
 
 	@Test
-<<<<<<< Updated upstream
-	void contextLoads() {
-=======
 	public void testLAElevation() {
 		final double lng3 = -118.35406495;
 		final double lat3 = 34.06255774;
@@ -58,8 +55,5 @@ class ElenaBackendApplicationTests {
 		// catch (Exception e) {
 		// 	System.out.println(e.getMessage());
 		// }
-		
->>>>>>> Stashed changes
 	}
-
 }

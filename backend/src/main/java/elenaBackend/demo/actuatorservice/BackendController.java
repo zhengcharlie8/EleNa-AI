@@ -26,6 +26,5 @@ public class BackendController {
         JSONObject bestRoute = Algorithm.getBestRoute(slat, slong, endLat,endlong, type, max, false);
         return bestRoute.toString();
     }
-    
-}
 
+}

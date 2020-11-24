@@ -52,7 +52,7 @@ public class Algorithm {
             con.setRequestMethod("GET");
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
-            
+
             int status = con.getResponseCode();
             if (status > 299) {          // Display error message when connection has problem
                 reader = new BufferedReader(new InputStreamReader(con.getErrorStream())); 
@@ -84,9 +84,9 @@ public class Algorithm {
         JSONObject Top3Routes = new JSONObject();
         return Top3Routes;
     }
-     
+
     // Front-end: "http://localhost:8080/getRoute?startLat=42.36929969&startLong=-71.10008238&endLat=42.38745864&endLong=-72.52926635&type=car&maximize=true";
-    
+
     /**
      * Helper method to round a random double to 2 decimal places. 
      * @param num input double.
@@ -136,12 +136,12 @@ public class Algorithm {
                 JSONObject curr_geo = array.getJSONObject(i).getJSONObject("geometry");
                 JSONArray coordinates = curr_geo.getJSONArray("coordinates");
                 //System.out.println("Current path includes points: " +coordinates.toString()+ ".");
-                
+
                 double lng = coordinates.getJSONArray(0).getDouble(0);
                 double lat = coordinates.getJSONArray(0).getDouble(1);
                 double curr_elev = Elevation.getElevation(lng, lat);
                 double next_elev;
-                
+
                 double elev_gain = 0.0;
                 for (int j = 1; j < coordinates.length(); j ++) {
                     lng = coordinates.getJSONArray(j).getDouble(0);
@@ -178,7 +178,7 @@ public class Algorithm {
         }
         return bestRoute;
     } 
-    
+
     public static void main(String[] args){
         // double lngA = -117.66907, latA = 34.05038;
         // double lngB = -118.27496, latB = 34.13681;
