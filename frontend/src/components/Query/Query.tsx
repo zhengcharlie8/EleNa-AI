@@ -52,7 +52,7 @@ const getGeoLocation = (
   setCoordinates: (value: React.SetStateAction<number[]>) => void
 ) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "AIzaSyDJzSs06U_9wW6f28SS8LZR_L8wuoqWlE8";
+  let API_KEY = "";
 
   axios
     .get(URL, {

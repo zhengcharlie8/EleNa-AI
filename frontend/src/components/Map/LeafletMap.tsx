@@ -81,7 +81,7 @@ class LeafletMap extends React.Component<IMapProps> {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {(this.props.start != undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
+        {(this.props.start !== undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
           ? <Marker key="start" position={this.props.start} icon={startIcon}>
             {(this.props.startAddress !== "")
               ? <Popup>{this.props.startAddress}</Popup>
@@ -90,7 +90,7 @@ class LeafletMap extends React.Component<IMapProps> {
           </Marker>
           : ""}
 
-        {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]))
+        {(this.props.end !== undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]))
           ? <Marker key="end" position={this.props.end} icon={endIcon}>
             {(this.props.endAddress !== "")
               ? <Popup>{this.props.endAddress}</Popup>
@@ -99,7 +99,7 @@ class LeafletMap extends React.Component<IMapProps> {
           </Marker>
           : ""}
 
-        {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]) && this.props.start != undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
+        {(this.props.end !== undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]) && this.props.start !== undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
           ? <MapConsumer>
             {(map) => {
               map.flyTo(midPoint(this.props.start!, this.props.end!), map.getZoom())
