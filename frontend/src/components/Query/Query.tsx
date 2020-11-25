@@ -17,7 +17,6 @@ interface IProps {
   setRoute: (route: number[][]) => void;
 }
 
-let route: number[][] = [];
 const elevationOptions = [
   { name: "Minimize", value: "minimize" },
   { name: "Maximize", value: "maximize" },
@@ -33,15 +32,14 @@ const getRoute = (
   end: number[],
   maximizeElevation: boolean,
   travel: String,
-  setResults: (distance: number, elevationGain: number) => void
+  setResults: (distance: number, elevationGain: number) => void,
+  setRoute: (route: number[][]) => void
 ) => {
   let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong=${end[1]}&max=${maximizeElevation}&type=${travel}`;
   axios.get(url).then((response: any) => {
-    console.log(response);
-    setResults(response.distance, response.elevationGain);
-    route = response.coordinates;
+    setResults(response.data.distance, response.data.elevation_gain);
+    setRoute(response.data.coordinates);
   });
-  return route;
 };
 
 const getGeoLocation = (
@@ -50,7 +48,7 @@ const getGeoLocation = (
   setCoordinates: (value: React.SetStateAction<number[]>) => void
 ) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "";
+  let API_KEY = "AIzaSyDJzSs06U_9wW6f28SS8LZR_L8wuoqWlE8";
 
   axios
     .get(URL, {
@@ -83,9 +81,7 @@ const Query: React.FC<IProps> = (props: IProps) => {
     <Form
       onSubmit={(event) => {
         props.setAddress(startPoint, endPoint);
-        props.setRoute(
-          getRoute(startCoordinates, endCoordinates, elevationValue === "maximize", travelMethod, props.setResults)
-        );
+        getRoute(startCoordinates, endCoordinates, elevationValue === "maximize", travelMethod, props.setResults, props.setRoute)
         event.preventDefault();
       }}
     >
