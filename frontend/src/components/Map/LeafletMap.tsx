@@ -28,17 +28,6 @@ function MyComponent(props: any) {
   return null
 }
 
-// function setViewOnChange(start:[number,number]|undefined, end: [number,number]|undefined) {
-//   const map = useMapEvents({
-
-//     map.setView(e.latlng, map.getZoom(), {
-//       animate: animateRef.current || false,
-//     })
-//   })
-
-//   return null
-// }
-
 interface IMapProps {
   start?: [number, number];
   end?: [number, number];
@@ -58,10 +47,8 @@ function radians(value: number) {
 }
 
 function midPoint(start: [number, number], end: [number, number]): [number, number] {
-
   let diffLng = radians(end[1] - start[1])
 
-  //-- Convert to radians
   let startLat = radians(start[0]);
   let endLat = radians(end[0]);
   let startLng = radians(start[1])
@@ -71,7 +58,6 @@ function midPoint(start: [number, number], end: [number, number]): [number, numb
   let midLat = Math.atan2(Math.sin(startLat) + Math.sin(endLat), Math.sqrt((Math.cos(startLat) + bX) * (Math.cos(startLat) + bX) + bY * bY));
   let midLng = startLng + Math.atan2(bY, Math.cos(startLat) + bX);
 
-  //-- Return result
   return [degrees(midLat), degrees(midLng)];
 }
 
