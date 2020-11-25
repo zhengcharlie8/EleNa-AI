@@ -55,7 +55,7 @@ const App: React.FC = () => {
         </Row>
         <Row>
           <Col sm={10}>
-            <LeafletMap start={startPoint} end={endPoint} route={route} />
+            <LeafletMap start={startPoint} end={endPoint} route={route} startAddress={startAddress} endAddress={endAddress} />
           </Col>
           <Col sm={2}>
             <Results

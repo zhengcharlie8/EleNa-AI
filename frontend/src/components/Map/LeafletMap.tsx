@@ -3,40 +3,22 @@ import { useMapEvents, MapContainer, Marker, Popup, TileLayer, GeoJSON, MapConsu
 import { LatLngTuple, Icon } from "leaflet";
 import { GeoJsonTypes, GeoJsonObject } from "geojson";
 import icon from './assets/pin24.png';
-import blueIcon from './assets/MapMarker_Ball_Right_Blue.png';
-import redIcon from './assets/MapMarker_Ball_Right_Red.png'
+import blueIcon from './assets/marker-icon-blue.png';
+import redIcon from './assets/marker-icon-red.png'
 
-const defaultLatLng: LatLngTuple = [42.407211, -71.382439];
+const defaultLatLng: LatLngTuple = [42.3732, -72.5199];
 const myStyle = {
   color: "#ff7800",
   weight: 5,
   opacity: 0.65,
 };
 
-// var markers: Array<[number, number]> = [[37.09024, -95.712891], [38.09024, -95.712891]];
-
-function MyComponent(props: any) {
-  const map = useMapEvents({
-    click: () => {
-      map.locate()
-    },
-    locationfound: (location) => {
-      // markers.push([location.latlng.lat, location.latlng.lng]);
-      console.log('location found:', location)
-    },
-  })
-  return null
-}
-
 interface IMapProps {
   start?: [number, number];
   end?: [number, number];
   route?: number[][];
-}
-
-interface IMapState {
-  start: [number, number] | undefined;
-  end: [number, number] | undefined;
+  startAddress: string;
+  endAddress: string;
 }
 function degrees(value: number) {
   return value * (180 / Math.PI);
@@ -64,17 +46,7 @@ function midPoint(start: [number, number], end: [number, number]): [number, numb
 class LeafletMap extends React.Component<IMapProps> {
   constructor(props: IMapProps) {
     super(props);
-    // this.state = {
-    //   start: this.props.start,
-    //   end: this.props.end
-    // };
   }
-
-  // addMarker = (e: { latlng: [number, number]; }) => {
-  //   const { markers } = this.state
-  //   markers.push(e.latlng)
-  //   this.setState({ markers })
-  // }
 
   render() {
     const myIcon = new Icon({
@@ -98,47 +70,43 @@ class LeafletMap extends React.Component<IMapProps> {
         id="mapId"
         center={defaultLatLng}
         minZoom={1}
-        zoom={12}
+        zoom={13}
         scrollWheelZoom={false}
-
       >
-        {/* <MyComponent markers={markers} /> */}
-        {}
         {(this.props.route != undefined)
           ? <GeoJSON data={myLines}
             style={myStyle} />
           : ""}
-        {/* <GeoJSON data={myLines} style={myStyle} /> */}
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {(this.props.start != undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
-          ? <Marker key="start" position={this.props.start} icon={startIcon}></Marker>
+          ? <Marker key="start" position={this.props.start} icon={startIcon}>
+            {(this.props.startAddress !== "")
+              ? <Popup>{this.props.startAddress}</Popup>
+              : ""
+            }
+          </Marker>
           : ""}
 
         {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]))
-          ? <Marker key="end" position={this.props.end} icon={endIcon}></Marker>
+          ? <Marker key="end" position={this.props.end} icon={endIcon}>
+            {(this.props.endAddress !== "")
+              ? <Popup>{this.props.endAddress}</Popup>
+              : ""
+            }
+          </Marker>
           : ""}
 
         {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]) && this.props.start != undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
           ? <MapConsumer>
             {(map) => {
-              map.flyTo(midPoint(this.props.start!, this.props.end!), 10)
+              map.flyTo(midPoint(this.props.start!, this.props.end!), map.getZoom())
               return null
             }}
           </MapConsumer>
           : ""}
-
-        {/* <Marker key={`marker-${idx}`}
-         position={position}
-             icon={myIcon}
-             draggable={true}>
-             <Popup>
-             <span>A pretty CSS3 popup. <br/> Easily customizable.</span>
-           </Popup>
-           </Marker> */}
-
       </MapContainer>
     );
   }
