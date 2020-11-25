@@ -3,8 +3,8 @@ import { useMapEvents, MapContainer, Marker, Popup, TileLayer, GeoJSON, MapConsu
 import { LatLngTuple, Icon } from "leaflet";
 import { GeoJsonTypes, GeoJsonObject } from "geojson";
 import icon from './assets/pin24.png';
-import blueIcon from './assets/marker-icon-2x-blue.png';
-import redIcon from './assets/marker-icon-2x-red.png'
+import blueIcon from './assets/MapMarker_Ball_Right_Blue.png';
+import redIcon from './assets/MapMarker_Ball_Right_Red.png'
 
 const defaultLatLng: LatLngTuple = [42.407211, -71.382439];
 const myStyle = {
