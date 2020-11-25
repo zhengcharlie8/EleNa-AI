@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import elenaBackend.Algorithm;
 
@@ -14,6 +15,7 @@ import elenaBackend.Algorithm;
 public class BackendController {
     private static final String AmherstToBos = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=false";
 
+    @CrossOrigin(origins = "https://localhost:3000")
     @GetMapping("/getRoute")
     @ResponseBody
     public String returnBestRoute(
