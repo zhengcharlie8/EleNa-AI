@@ -1,14 +1,12 @@
 import React from "react";
 import { Row } from "react-bootstrap";
 
-import { Point } from "../App";
-
 interface Props {
   distance: number;
   elevationGain: number;
   startAddress: string;
   endAddress: string;
-  route: Point[];
+  route: number[][];
 }
 
 const Results: React.FC<Props> = (props: Props) => {
@@ -21,7 +19,7 @@ const Results: React.FC<Props> = (props: Props) => {
         </Row>
         {props.route.map((point, idx) => (
           <Row key={idx}>
-            <span>- Lat: {point.location[0]}, Lng: ${point.location[1]}</span>
+            <span>- Lat: {point[0]}, Lng: ${point[1]}</span>
           </Row>
         ))}
         <Row>
