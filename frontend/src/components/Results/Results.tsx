@@ -31,12 +31,12 @@ const Results: React.FC<Props> = (props: Props) => {
   return (
     <div>
       <Row>
-        <strong>Distance</strong>
+        <strong>Distance (miles)</strong>
         <input disabled value={props.distance} />
       </Row>
       <br />
       <Row>
-        <strong>Elevation Gain</strong>
+        <strong>Elevation Gain (feet)</strong>
         <input disabled value={props.elevationGain} />
       </Row>
       <br />
