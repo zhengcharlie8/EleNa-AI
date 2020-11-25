@@ -43,23 +43,24 @@ class ElenaBackendApplicationTests {
 
 	@Test
 	public void testgetBestRoute() {
-		// String Input1_max = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
-		// String Input1_min = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=false";
-		// JSONObject bestRoute1_max = Algorithm.getBestRoute(Input1_max, false);
-		// JSONObject bestRoute1_min = Algorithm.getBestRoute(Input1_min, false);
-		// String Input2_max = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
-
-		// JSONObject bestRoute2_max = Algorithm.getBestRoute(Input2_max, false);
-		// try {
-		// 	assertEquals(281.35, bestRoute1_max.getDouble("elevation_gain"));
-		// 	assertEquals(90.16, bestRoute1_max.getDouble("distance"));
-		// 	assertEquals(179.05, bestRoute1_min.getDouble("elevation_gain"));
-		// 	assertEquals(104.35, bestRoute1_min.getDouble("distance"));
-		// 	assertEquals(71.56, bestRoute2_max.getDouble("elevation_gain"));
-		// 	assertEquals(41.71, bestRoute2_max.getDouble("distance"));
-		// }
-		// catch (Exception e) {
-		// 	System.out.println(e.getMessage());
-		// }
+		String lngA = "-117.66907", latA = "34.05038";
+        String lngB = "-118.27496", latB = "34.13681";
+        String type = "car";
+		JSONObject bestRoute1_max = Algorithm.getBestRoute(latA, lngA, latB, lngB, type, true, false);
+		JSONObject bestRoute1_min = Algorithm.getBestRoute(latA, lngA, latB, lngB, type, false, false);
+		// String lngC = "-117.66907", latC = "34.05038";
+		// String lngD = "-118.27496", latD = "34.13681";
+		// JSONObject bestRoute2_max = Algorithm.getBestRoute(latC, lngC, latD, lngD, type, true, false);
+		try {
+			assertEquals(291.06, bestRoute1_max.getDouble("elevation_gain"));
+			assertEquals(41.71, bestRoute1_max.getDouble("distance"));
+			assertEquals(126.41, bestRoute1_min.getDouble("elevation_gain"));
+			assertEquals(44.41, bestRoute1_min.getDouble("distance"));
+			// assertEquals(71.56, bestRoute2_max.getDouble("elevation_gain"));
+			// assertEquals(41.71, bestRoute2_max.getDouble("distance"));
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

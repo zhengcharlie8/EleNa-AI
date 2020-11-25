@@ -87,22 +87,13 @@ public class Algorithm {
 
     // Front-end: "http://localhost:8080/getRoute?startLat=42.36929969&startLong=-71.10008238&endLat=42.38745864&endLong=-72.52926635&type=car&maximize=true";
 
-    /**
-     * Helper method to round a random double to 2 decimal places. 
-     * @param num input double.
-     * @return the same number rounded to 2 decimal places.
-     */
+    
     public static double twoDecimalPlaces(double num) {
         String converted = String.format("%.2f", num);
         return Double.parseDouble(converted);
     }
 
-    /**
-     * Main method to find the best route, given an input string from front-end. 
-     * @param  FEinput input string from the front-end. 
-     * @param  checkTop3 boolean that indicates whether or not to check the 3 shortest routes.      
-     * @return The best route in json format, maximizing/minimizing elevation gain.
-     */
+    
     public static JSONObject getBestRoute(
      String slat,
      String slong,
@@ -120,7 +111,6 @@ public class Algorithm {
         double lng2 = Double.parseDouble(endlat);
         double lat2 = Double.parseDouble(endlong);
         String mode = type;
-        boolean maximize = true;
         if (checkTop3) {
             Routes = EvanMethod(lng1, lat1, lng2, lat2, mode);
         }
@@ -161,7 +151,7 @@ public class Algorithm {
             Arrays.sort(elev_gains);
             int k;                // Index of the best route
             double elev_gain;     // Elevation gain of the best route
-            if (maximize) {
+            if (max) {
                 elev_gain = elev_gains[elev_gains.length-1];  
                 k = map.get(elev_gain);
             }
@@ -180,20 +170,11 @@ public class Algorithm {
     } 
 
     public static void main(String[] args){
-        // double lngA = -117.66907, latA = 34.05038;
-        // double lngB = -118.27496, latB = 34.13681;
-        // String travel_mode = "driving";
-        // JSONObject queryjson = getJSON(lngA, latA, lngB, latB, travel_mode);
-        // // try {
-        // //     System.out.println(queryjson.toString(2));   // pretty printing
-        // // }
-        // // catch (Exception e) {
-        // //     System.out.println(e.getMessage());
-        // // }
-        // // parseJSON(queryjson);
-        // String FEinput = "http://localhost:8080/getRoute?startLat=34.05038&startLong=-117.66907&endLat=34.13681&endLong=-118.27496&type=car&maximize=true";
-        // // String AmhToBos = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=true";
-        // JSONObject bestFound = getBestRoute(FEinput, false);
-        // System.out.println("The best route is " +bestFound+ ". ");
+        String lngA = "-117.66907", latA = "34.05038";
+        String lngB = "-118.27496", latB = "34.13681";
+        String type = "car";
+        boolean max = false;
+        JSONObject bestFound = getBestRoute(latA, lngA, latB, lngB, type, max, false);
+        System.out.println("The best route is " +bestFound+ ". ");
     }
 }
