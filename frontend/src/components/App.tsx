@@ -7,8 +7,7 @@ import Results from "./Results/Results";
 import LeafletMap from "./Map/LeafletMap";
 
 export interface Point {
-  name: string;
-  location: number[];
+  location: number[]
 }
 
 const App: React.FC = () => {

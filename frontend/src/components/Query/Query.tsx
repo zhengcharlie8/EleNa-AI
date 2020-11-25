@@ -37,8 +37,9 @@ const getRoute = (
   travel: String,
   setResults: (distance: number, elevationGain: number) => void
 ) => {
-  let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong${end[1]}&max=${maximizeElevation}&type=${travel}`;
+  let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong=${end[1]}&max=${maximizeElevation}&type=${travel}`;
   axios.get(url).then((response: any) => {
+    console.log(response);
     setResults(response.distance, response.elevationGain);
     route = response.coordinates;
   });
