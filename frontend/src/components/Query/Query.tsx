@@ -8,6 +8,7 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 import axios from "axios";
+import logo from './assets/loading.gif'
 
 interface IProps {
   setStartLocation: (start: [number, number]) => void;
@@ -33,12 +34,15 @@ const getRoute = (
   maximizeElevation: boolean,
   travel: String,
   setResults: (distance: number, elevationGain: number) => void,
-  setRoute: (route: number[][]) => void
+  setRoute: (route: number[][]) => void,
+  setLoading: (value: boolean) => void
 ) => {
+  setLoading(true);
   let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong=${end[1]}&max=${maximizeElevation}&type=${travel}`;
   axios.get(url).then((response: any) => {
     setResults(response.data.distance, response.data.elevation_gain);
     setRoute(response.data.coordinates);
+    setLoading(false);
   });
 };
 
@@ -48,7 +52,7 @@ const getGeoLocation = (
   setCoordinates: (value: React.SetStateAction<number[]>) => void
 ) => {
   let URL = "https://maps.googleapis.com/maps/api/geocode/json";
-  let API_KEY = "AIzaSyDJzSs06U_9wW6f28SS8LZR_L8wuoqWlE8";
+  let API_KEY = "";
 
   axios
     .get(URL, {
@@ -76,12 +80,13 @@ const Query: React.FC<IProps> = (props: IProps) => {
   const [travelMethod, setTravelMethod] = useState("foot");
   const [startCoordinates, setStartCoordinates] = useState([0, 0]);
   const [endCoordinates, setEndCoordinates] = useState([0, 0]);
+  const [loading, setLoading] = useState(false);
 
   return (
     <Form
       onSubmit={(event) => {
         props.setAddress(startPoint, endPoint);
-        getRoute(startCoordinates, endCoordinates, elevationValue === "maximize", travelMethod, props.setResults, props.setRoute)
+        getRoute(startCoordinates, endCoordinates, elevationValue === "maximize", travelMethod, props.setResults, props.setRoute, setLoading)
         event.preventDefault();
       }}
     >
@@ -169,6 +174,12 @@ const Query: React.FC<IProps> = (props: IProps) => {
               ))}
             </ButtonGroup>
           </Form.Group>
+        </Col>
+        <Col sm={2}>
+          {(loading)
+            ? <img src={logo} alt="loading..." height="120" width="120" />
+            : ""
+          }
         </Col>
       </Row>
       <Button size="lg" block type="submit">
