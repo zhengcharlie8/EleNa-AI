@@ -9,17 +9,15 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import { Point } from "../App";
-
 interface IProps {
   setStartLocation: (start: [number, number]) => void;
   setEndLocation: (end: [number, number]) => void;
   setResults: (distance: number, elevationGain: number) => void;
   setAddress: (start: string, end: string) => void;
-  setRoute: (route: Point[]) => void;
+  setRoute: (route: number[][]) => void;
 }
 
-let route: Point[] = [];
+let route: number[][] = [];
 const elevationOptions = [
   { name: "Minimize", value: "minimize" },
   { name: "Maximize", value: "maximize" },
