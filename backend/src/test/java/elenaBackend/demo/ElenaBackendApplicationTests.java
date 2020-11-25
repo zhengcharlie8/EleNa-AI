@@ -42,23 +42,46 @@ class ElenaBackendApplicationTests {
 	}
 
 	@Test
-	public void testgetBestRoute() {
+	public void testgetBestRouteMax() {
 		String lngA = "-117.66907", latA = "34.05038";
         String lngB = "-118.27496", latB = "34.13681";
         String type = "car";
-		JSONObject bestRoute1_max = Algorithm.getBestRoute(latA, lngA, latB, lngB, type, true, false);
-		JSONObject bestRoute1_min = Algorithm.getBestRoute(latA, lngA, latB, lngB, type, false, false);
-		// String lngC = "-117.66907", latC = "34.05038";
-		// String lngD = "-118.27496", latD = "34.13681";
-		// JSONObject bestRoute2_max = Algorithm.getBestRoute(latC, lngC, latD, lngD, type, true, false);
+		JSONObject bestRoute_max = Algorithm.getBestRoute(latA, lngA, latB, lngB, type, true, false);
 		try {
-			assertEquals(291.06, bestRoute1_max.getDouble("elevation_gain"));
-			assertEquals(41.71, bestRoute1_max.getDouble("distance"));
-			assertEquals(126.41, bestRoute1_min.getDouble("elevation_gain"));
-			assertEquals(44.41, bestRoute1_min.getDouble("distance"));
-			// assertEquals(71.56, bestRoute2_max.getDouble("elevation_gain"));
-			// assertEquals(41.71, bestRoute2_max.getDouble("distance"));
+			assertEquals(291.06, bestRoute_max.getDouble("elevation_gain"));
+			assertEquals(41.71, bestRoute_max.getDouble("distance"));
 		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testgetBestRouteMin() {
+		String lng1 = "-117.66907", lat1 = "34.05038";
+		String lng2 = "-118.27496", lat2 = "34.13681";
+		String type = "car";
+		JSONObject bestRoute_min = Algorithm.getBestRoute(lat1, lng1, lat2, lng2, type, false, false);
+		try {
+			assertEquals(126.41, bestRoute_min.getDouble("elevation_gain"));
+			assertEquals(44.41, bestRoute_min.getDouble("distance"));
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testInvalidRoute() {
+		String lng1 = "-517.66907", lat1 = "34.05038";
+		String lng2 = "-118.27496", lat2 = "34.13681";
+		String type = "car";
+		JSONObject bestRoute_min = Algorithm.getBestRoute(lat1, lng1, lat2, lng2, type, false, false);
+		JSONObject bestRoute_max = Algorithm.getBestRoute(lat1, lng1, lat2, lng2, type, true, false);
+		try {
+			assertEquals("{}", bestRoute_min.toString());
+			assertEquals("{}", bestRoute_max.toString());
+		} 
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
