@@ -1,5 +1,5 @@
 import React from "react";
-import { useMapEvents, MapContainer, Marker, Popup, TileLayer, GeoJSON } from "react-leaflet";
+import { useMapEvents, MapContainer, Marker, Popup, TileLayer, GeoJSON, MapConsumer } from "react-leaflet";
 import { LatLngTuple, Icon } from "leaflet";
 import { GeoJsonTypes, GeoJsonObject } from "geojson";
 import icon from './assets/pin24.png';
@@ -28,6 +28,17 @@ function MyComponent(props: any) {
   return null
 }
 
+// function setViewOnChange(start:[number,number]|undefined, end: [number,number]|undefined) {
+//   const map = useMapEvents({
+
+//     map.setView(e.latlng, map.getZoom(), {
+//       animate: animateRef.current || false,
+//     })
+//   })
+
+//   return null
+// }
+
 interface IMapProps {
   start?: [number, number];
   end?: [number, number];
@@ -37,6 +48,31 @@ interface IMapProps {
 interface IMapState {
   start: [number, number] | undefined;
   end: [number, number] | undefined;
+}
+function degrees(value: number) {
+  return value * (180 / Math.PI);
+}
+
+function radians(value: number) {
+  return value * Math.PI / 180;
+}
+
+function midPoint(start: [number, number], end: [number, number]): [number, number] {
+
+  let diffLng = radians(end[1] - start[1])
+
+  //-- Convert to radians
+  let startLat = radians(start[0]);
+  let endLat = radians(end[0]);
+  let startLng = radians(start[1])
+
+  let bX = Math.cos(endLat) * Math.cos(diffLng);
+  let bY = Math.cos(endLat) * Math.sin(diffLng);
+  let midLat = Math.atan2(Math.sin(startLat) + Math.sin(endLat), Math.sqrt((Math.cos(startLat) + bX) * (Math.cos(startLat) + bX) + bY * bY));
+  let midLng = startLng + Math.atan2(bY, Math.cos(startLat) + bX);
+
+  //-- Return result
+  return [degrees(midLat), degrees(midLng)];
 }
 
 class LeafletMap extends React.Component<IMapProps> {
@@ -78,8 +114,10 @@ class LeafletMap extends React.Component<IMapProps> {
         minZoom={1}
         zoom={12}
         scrollWheelZoom={false}
+
       >
         {/* <MyComponent markers={markers} /> */}
+        {}
         {(this.props.route != undefined)
           ? <GeoJSON data={myLines}
             style={myStyle} />
@@ -95,6 +133,15 @@ class LeafletMap extends React.Component<IMapProps> {
 
         {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]))
           ? <Marker key="end" position={this.props.end} icon={endIcon}></Marker>
+          : ""}
+
+        {(this.props.end != undefined && JSON.stringify(this.props.end) !== JSON.stringify([0, 0]) && this.props.start != undefined && JSON.stringify(this.props.start) !== JSON.stringify([0, 0]))
+          ? <MapConsumer>
+            {(map) => {
+              map.flyTo(midPoint(this.props.start!, this.props.end!), 10)
+              return null
+            }}
+          </MapConsumer>
           : ""}
 
         {/* <Marker key={`marker-${idx}`}
