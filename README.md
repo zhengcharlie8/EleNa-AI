@@ -2,7 +2,9 @@
 
 Built by Team ***520 Blaze It!***
 
-## Frontend Overview
+## Overview
+
+### Frontend Overview
 
 The frontend is set up using React and typescript. There are four primary components that make up the User Interface, which include the following:
 
@@ -13,9 +15,11 @@ The frontend is set up using React and typescript. There are four primary compon
 
 The frontend also uses the GeoCode Endpoint from Google Maps API for converting address strings into coordinates.
 
-## Backend Overview
+### Backend Overview
 
 The backend is set up using Springboot, Maven, and Java. It contains the `getRoute` endpoint used for finding the best route between two points with specified parameters for querying. The endpoint set up by Springboot uses a MVC architecture and contains an algorithm that finds the shortest routes between two points and then returns the ones with maximal or minimal (depending on the parameters given) elevation gain. Notable services used for the backend include OSRM (for finding viable routes between two points) and USGS (for finding the elevation of each point along a route).
+
+### Setting Up and Running
 
 ## Setting up and Running the Frontend
 
