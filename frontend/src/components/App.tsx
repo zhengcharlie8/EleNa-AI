@@ -6,11 +6,6 @@ import Query from "./Query/Query";
 import Results from "./Results/Results";
 import LeafletMap from "./Map/LeafletMap";
 
-export interface Point {
-  name: string;
-  location: number[];
-}
-
 const App: React.FC = () => {
   let [startPoint, setStartPoint] = useState<[number, number]>([0, 0]);
   let [endPoint, setEndPoint] = useState<[number, number]>([0, 0]);
@@ -18,7 +13,7 @@ const App: React.FC = () => {
   let [elevationGain, setElevationGain] = useState(0);
   let [startAddress, setStartAddress] = useState("");
   let [endAddress, setEndAddress] = useState("");
-  let [route, setRoute] = useState<Point[]>([]);
+  let [route, setRoute] = useState<number[][]>([]);
 
   const setResults = (distance: number, elevationGain: number) => {
     setDistance(distance);
@@ -38,7 +33,7 @@ const App: React.FC = () => {
     setEndPoint(end);
   };
 
-  const setRouting = (route: Point[]) => {
+  const setRouting = (route: number[][]) => {
     setRoute(route);
   };
 

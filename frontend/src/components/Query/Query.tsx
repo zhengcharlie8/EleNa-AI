@@ -9,17 +9,15 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import { Point } from "../App";
-
 interface IProps {
   setStartLocation: (start: [number, number]) => void;
   setEndLocation: (end: [number, number]) => void;
   setResults: (distance: number, elevationGain: number) => void;
   setAddress: (start: string, end: string) => void;
-  setRoute: (route: Point[]) => void;
+  setRoute: (route: number[][]) => void;
 }
 
-let route: Point[] = [];
+let route: number[][] = [];
 const elevationOptions = [
   { name: "Minimize", value: "minimize" },
   { name: "Maximize", value: "maximize" },
@@ -37,8 +35,9 @@ const getRoute = (
   travel: String,
   setResults: (distance: number, elevationGain: number) => void
 ) => {
-  let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong${end[1]}&maximize=${maximizeElevation}&type=${travel}`;
+  let url = `http://localhost:8080/getRoute?startLat=${start[0]}&startLong=${start[1]}&endLat=${end[0]}&endLong=${end[1]}&max=${maximizeElevation}&type=${travel}`;
   axios.get(url).then((response: any) => {
+    console.log(response);
     setResults(response.distance, response.elevationGain);
     route = response.coordinates;
   });
@@ -61,10 +60,8 @@ const getGeoLocation = (
       },
     })
     .then((response: any) => {
-      let formattedAddr = response.data.results[0].formatted_address;
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
-      console.log(formattedAddr, lat, lng)
       setLocation([lat, lng]);
       setCoordinates([lat, lng]);
     })
