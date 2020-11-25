@@ -28,8 +28,9 @@ United States Geo-Services Query: <https://nationalmap.gov/epqs/>
 ## Setting up and Running the Frontend
 
 1. Go to the `frontend` directory and run `npm i` in the terminal to install the node dependencies.
-2. Run `npm start` in the terminal to start the application.
-3. The application should open on `https://localhost:3000` automatically, but if not navigate to it in browser.
+2. Add the required `.env` file to the frontend directory containing the Google Maps API key. It should have the following format `REACT_APP_GOOGLE_MAPS_API_KEY=<API KEY>`
+3. Run `npm start` in the terminal to start the application.
+4. The application should open on `https://localhost:3000` automatically, but if not navigate to it in browser.
 
 ## Setting up and Running the Backend
 
