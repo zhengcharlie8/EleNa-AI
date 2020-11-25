@@ -2,6 +2,12 @@ package elenaBackend.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import elenaBackend.Elevation;
+import elenaBackend.Algorithm;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.json.JSONObject;
+
 
 @SpringBootTest
 class ElenaBackendApplicationTests {
