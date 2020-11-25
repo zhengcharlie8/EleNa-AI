@@ -26,7 +26,7 @@ The backend is set up using Springboot, Maven, and Java. It contains the `getRou
 ## Setting up and Running the Backend
 
 1. Install Apache Maven by following the instructions at <https://maven.apache.org/install.html>
-2. Make sure that your current version of Java is identical the one specified in the `pom.xml` file located in the `backend` directory (currently is set to Java version 8). If not, down the required Java version and set it to `JAVA_HOME` or you can change the java version required for maven by changing the version number in  
+2. Make sure that your current version of Java is identical the one specified in the `pom.xml` file located in the `backend` directory (currently is set to Java version 8). If not, download the required Java version and set it to `JAVA_HOME` or you can change the java version required for maven by changing the version number in  
 `<properties>`
     `<java.version>8</java.version>`
 `</properties>`
