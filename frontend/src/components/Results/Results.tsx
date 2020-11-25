@@ -19,7 +19,7 @@ const Results: React.FC<Props> = (props: Props) => {
         </Row>
         {props.route.map((point, idx) => (
           <Row key={idx}>
-            <span>- Lat: {point[0]}, Lng: {point[1]}</span>
+            <span>- ({point[0]}, {point[1]})</span>
           </Row>
         ))}
         <Row>
