@@ -6,7 +6,7 @@ Built by Team ***520 Blaze It!***
 
 ### Frontend Overview
 
-The frontend is set up using React and typescript. There are four primary components that make up the User Interface, which include the following:
+The frontend is set up using React and TypeScript. There are four primary components that make up the User Interface, which include the following:
 
 - Query - contains the interactive inputs that users can use to query for a viable route from start point to destination
 - Map - displays the leaflet map that provides users with a visual of the planned route
@@ -19,13 +19,16 @@ The frontend also uses the GeoCode Endpoint from Google Maps API for converting 
 
 The backend is set up using Springboot, Maven, and Java. It contains the `getRoute` endpoint used for finding the best route between two points with specified parameters for querying. The endpoint set up by Springboot uses a MVC architecture and contains an algorithm that finds the shortest routes between two points and then returns the ones with maximal or minimal (depending on the parameters given) elevation gain. Notable services used for the backend include OSRM (for finding viable routes between two points) and USGS (for finding the elevation of each point along a route).
 
+Open Source Routing Machine: <http://project-osrm.org/>
+United States Geo-Services Query: <https://nationalmap.gov/epqs/>
+
 ### Setting Up and Running
 
 ## Setting up and Running the Frontend
 
 1. Go to the `frontend` directory and run `npm i` in the terminal to install the node dependencies.
 2. Run `npm start` in the terminal to start the application.
-3. The application should open on `localhost:3000` automatically, but if not navigate to it in browser.
+3. The application should open on `https://localhost:3000` automatically, but if not navigate to it in browser.
 
 ## Setting up and Running the Backend
 
@@ -35,4 +38,5 @@ The backend is set up using Springboot, Maven, and Java. It contains the `getRou
     `<java.version>8</java.version>`
 `</properties>`
 3. In the `backend` directory, run `mvn spring-boot:run` to start the backend server.
-4. You can then navigate the to the server on the browser at `localhost:8080/<endpoint>` with the necessary endpoint and parameters for the specified endpoint.
+4. You can then navigate the to the server on the browser at `http://localhost:8080/<endpoint>` with the necessary endpoint and parameters for the specified endpoint.
+5. To test the endpoint, you can run an example query such as `http://localhost:8080/getRoute?startLat=39.636111&startLong=-105.044410&endLat=40.665955&endLong=-74.115622&type=car&max=false` which will return a JSON object with the route, elevation gain, and distance.
