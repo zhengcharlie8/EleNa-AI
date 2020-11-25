@@ -13,7 +13,6 @@ import elenaBackend.Algorithm;
 
 @Controller
 public class BackendController {
-    private static final String AmherstToBos = "http://localhost:8080/getRoute?startLat=42.38887862&startLong=-72.53009035&endLat=42.36204482&endLong=-71.08557701&type=car&maximize=false";
 
     @CrossOrigin(origins = "https://localhost:3000")
     @GetMapping("/getRoute")

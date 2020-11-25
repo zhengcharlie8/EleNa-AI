@@ -9,9 +9,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+// import java.util.ArrayList;
+// import java.util.regex.Matcher;
+// import java.util.regex.Pattern;
 
 /**
  * Algorithms for finding the best path maximizing/miniming elevation gain via the
@@ -87,13 +87,27 @@ public class Algorithm {
 
     // Front-end: "http://localhost:8080/getRoute?startLat=42.36929969&startLong=-71.10008238&endLat=42.38745864&endLong=-72.52926635&type=car&maximize=true";
 
-    
+     /**
+      * Method to convert a random double to two decimal places.
+      * @param num the input number in double format.
+      * @return the same number in 2 decimal places (double).
+      */
     public static double twoDecimalPlaces(double num) {
         String converted = String.format("%.2f", num);
         return Double.parseDouble(converted);
     }
 
-    
+    /**
+     * Main search algorithm to find the best route, maximizing/minimizing the elevation gain.
+     * @param slat latitude of the starting point.
+     * @param slong longitude of the starting point.
+     * @param endlat latitude of the destination point.
+     * @param endlong longitude of the destination point.
+     * @param type travel mode (String).
+     * @param max boolean that indicates whether or not to maximizing the elevation gain (minimizing if false).
+     * @param checkTop3 boolean that indicates whether or not to check 3 shortest routes only.
+     * @return a JSONObject of the best route found.
+     */
     public static JSONObject getBestRoute(
      String slat,
      String slong,
@@ -105,7 +119,6 @@ public class Algorithm {
         JSONObject bestRoute = new JSONObject();
         JSONObject Routes;
         // Extract information from String returned by front-end
-        // System.out.println(inputs);
         double lng1 = Double.parseDouble(slong);
         double lat1 = Double.parseDouble(slat);
         double lng2 = Double.parseDouble(endlat);
@@ -118,6 +131,10 @@ public class Algorithm {
             Routes = getJSON(lat1, lng1, lat2, lng2, mode);
         }
 
+        if (Routes.toString().equals("{}")) {
+            return bestRoute;
+        }
+
         try {
             JSONArray array = Routes.getJSONArray("routes");
             HashMap<Double, Integer> map = new HashMap<>();
@@ -126,7 +143,6 @@ public class Algorithm {
                 JSONObject curr_geo = array.getJSONObject(i).getJSONObject("geometry");
                 JSONArray coordinates = curr_geo.getJSONArray("coordinates");
                 //System.out.println("Current path includes points: " +coordinates.toString()+ ".");
-
                 double lng = coordinates.getJSONArray(0).getDouble(0);
                 double lat = coordinates.getJSONArray(0).getDouble(1);
                 double curr_elev = Elevation.getElevation(lng, lat);
@@ -170,11 +186,12 @@ public class Algorithm {
     } 
 
     public static void main(String[] args){
-        String lngA = "-117.66907", latA = "34.05038";
-        String lngB = "-118.27496", latB = "34.13681";
         String type = "car";
         boolean max = false;
-        JSONObject bestFound = getBestRoute(latA, lngA, latB, lngB, type, max, false);
-        System.out.println("The best route is " +bestFound+ ". ");
+        String lngC = "-72.69818113", latC = "41.75410259";
+        // String lngC = "-350.69818113", latC = "41.75410259";
+        String lngD = "-73.92288195", latD = "41.70326782";
+        JSONObject bestFound2 = getBestRoute(latC, lngC, latD, lngD, type, max, false);
+        System.out.println("The best route 2 is " +bestFound2+ ". ");
     }
 }
